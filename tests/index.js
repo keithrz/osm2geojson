@@ -34,6 +34,28 @@ describe('Osm2GeoJSON', function () {
               });
         xml.pipe(converter).pipe(parser);
       });
-    }); 
+    });
+  });
+  describe('when called again, converts polygons', function () {
+    var converter = osm2geojson()
+      .on('error', errLog.write);
+
+      it('following geojson spec', function (done) {
+        var xml = fs.createReadStream(path.join(__dirname, 'polygon.osm')),
+            parser = geojsonStream.parse()
+              .on('data', function(data) {
+                if(data.id === "100") {
+                  assert.equal(data.geometry.type, 'Polygon');
+                  assert.equal(data.geometry.coordinates.length, 1);
+                  assert.equal(data.geometry.coordinates[0].length, 9);
+                }
+                if(data.id === "101") {
+                  assert.equal(data.geometry.type, 'LineString');
+                  assert.equal(data.geometry.coordinates.length, 7);
+                }
+              })
+              .on('end', done);
+        xml.pipe(converter).pipe(parser);
+      });
   });
 });

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="Osmosis 0.43.1">
+    <node id="1" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8298675" lon="4.9378357"/>
+    <node id="2" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8307923" lon="4.9362614"/>
+    <node id="3" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8291945" lon="4.9397359"/>
+    <node id="4" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.829708" lon="4.939749"/>
+    <node id="5" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8365063" lon="4.9324107"/>
+    <node id="6" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8393334" lon="4.932322"/>
+    <node id="7" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.832333" lon="4.9363001"/>
+    <node id="8" version="2" timestamp="2013-08-19T10:32:07Z" uid="1" user="Verdy_p" changeset="17408851" lat="36.8326054" lon="4.9353483"/>
+    <way id="100" version="1" timestamp="2013-11-08T13:21:53Z" uid="2" user="ButterflyOfFire" changeset="18781972">
+        <nd ref="1"/>
+        <nd ref="2"/>
+        <nd ref="3"/>
+        <nd ref="4"/>
+        <nd ref="5"/>
+        <nd ref="6"/>
+        <nd ref="7"/>
+        <nd ref="8"/>
+        <nd ref="1"/>
+    </way>
+    <way id="101" version="1" timestamp="2013-11-08T13:21:53Z" uid="2" user="ButterflyOfFire" changeset="18781972">
+        <nd ref="1"/>
+        <nd ref="2"/>
+        <nd ref="3"/>
+        <nd ref="4"/>
+        <nd ref="5"/>
+        <nd ref="6"/>
+        <nd ref="7"/>
+    </way>
+</osm>
