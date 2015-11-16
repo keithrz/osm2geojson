@@ -71,7 +71,7 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
         // ... then it is a Polygon ...
         currentFeature.geometry.type = 'Polygon';
         // ...and the line needs to be wrapped in another pair of brackets
-        currentFeature.geometry.coordinates = [currentFeature.geometry.coordinates];
+        //currentFeature.geometry.coordinates = [currentFeature.geometry.coordinates];
       } else {
         // Otherwise this is a LineString
         currentFeature.geometry.type = 'LineString';
