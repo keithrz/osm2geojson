@@ -1,5 +1,5 @@
 var expat = require('node-expat'),
-    stream = require('stream')
+    stream = require('stream'),
     geojsonStream = require('geojson-stream');
 
 function Osm2GeoJSON(filterFunction, mappingFunction) {
@@ -24,7 +24,7 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
   transformer._transform = function (chunk, encoding, callback) {
     parser.write(chunk);
     callback();
-  }
+  };
 
   // Helper function to set up a GeoJSON feature
   function newFeature(id, uid, coords) {
