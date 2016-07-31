@@ -1,5 +1,5 @@
 {
-  "name": "osm2geojsonstreaming",
+  "name": "osm2geojsonstream",
   "description": "Streams OSM data in XML format to GeoJSON.  Forked from Ryan Clark's osm2geojson library before it incorporated osmium.",
   "keywords": [
     "geojson",
@@ -9,7 +9,7 @@
   "author": "Keith Zimmerman",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rclark/osm2geojson.git"
+    "url": "https://github.com/keithrz/osm2geojson.git"
   },
   "main": "index.js",
   "version": "0.3.1",
@@ -21,7 +21,7 @@
   },
   "engine": "node >= 0.8.20",
   "bin": {
-    "osm2geojson": "./bin/osm2geojson.js"
+    "osm2geojsonstream": "./bin/osm2geojsonstream.js"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha tests/"

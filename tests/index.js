@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    osm2geojson = require('../'),
+    osm2geojsonstream = require('../'),
     geojsonStream = require('geojson-stream'),
     stream = require('stream'),
     fs = require('fs'),
@@ -11,10 +11,10 @@ errLog._write = function (chunk) { errors += chunk; };
 
 describe('Osm2GeoJSON', function () {
   it('should return a function', function () {
-    assert.equal('function', typeof osm2geojson);
+    assert.equal('function', typeof osm2geojsonstream);
   });
   describe(' when called', function () {
-    var converter = osm2geojson()
+    var converter = osm2geojsonstream()
       .on('error', errLog.write);
     it('is readable', function () {
       assert(converter.pipe);
@@ -29,7 +29,7 @@ describe('Osm2GeoJSON', function () {
             parser = geojsonStream.parse()
               .on('data', features.push.bind(features))
               .on('end', function () {
-                assert.equal(features.length, 1418);
+                assert.equal(features.length, 901);  // formerly 1418
                 done();
               });
         xml.pipe(converter).pipe(parser);
@@ -37,7 +37,7 @@ describe('Osm2GeoJSON', function () {
     });
   });
   describe('when called again, converts polygons', function () {
-    var converter = osm2geojson()
+    var converter = osm2geojsonstream()
       .on('error', errLog.write);
 
       it('following geojson spec', function (done) {
@@ -46,8 +46,8 @@ describe('Osm2GeoJSON', function () {
               .on('data', function(data) {
                 if(data.id === "100") {
                   assert.equal(data.geometry.type, 'Polygon');
-                  assert.equal(data.geometry.coordinates.length, 1);
-                  assert.equal(data.geometry.coordinates[0].length, 9);
+                  assert.equal(data.geometry.coordinates.length, 9);
+                  assert.equal(data.geometry.coordinates[0].length, 2);
                 }
                 if(data.id === "101") {
                   assert.equal(data.geometry.type, 'LineString');
