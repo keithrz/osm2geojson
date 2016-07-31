@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var osm2geojson = require('../')(),
+var osm2geojsonstream = require('../')(),
     fs = require('fs'),
     request = require('request'),
 
@@ -19,7 +19,7 @@ var osm2geojson = require('../')(),
 
       .options('e', {
         alias: 'errorLog',
-        default: 'osm2geojson.err',
+        default: 'osm2geojsonstream.err',
         describe: 'the path to a file that will log any errors encountered during transformation.'
       })
 
@@ -38,7 +38,7 @@ if (argv.file !== '') {
 
 if (!input) return console.log('There was no input recieved');
 
-input.pipe(osm2geojson)
+input.pipe(osm2geojsonstream)
   .on('error', function (err) {
     errLog = errLog || fs.createWriteStream(argv.errorLog);
     errLog.write(err);
