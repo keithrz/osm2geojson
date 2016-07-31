@@ -9,12 +9,12 @@
   "author": "Keith Zimmerman",
   "repository": {
     "type": "git",
-    "url": "https://github.com/keithrz/osm2geojson.git"
+    "url": "https://github.com/keithrz/osm2geojsonstream.git"
   },
   "main": "index.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
-    "node-expat": "2.3.15",
+    "sax": "1.2.1",
     "geojson-stream": "0.0.1",
     "optimist": "~0.6.0",
     "request": "~2.30.0"
@@ -24,7 +24,7 @@
     "osm2geojsonstream": "./bin/osm2geojsonstream.js"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests/"
+    "test": "./node_modules/mocha/bin/mocha tests/ -t 10000"
   },
   "license": "MIT",
   "devDependencies": {
