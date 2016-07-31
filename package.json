@@ -24,7 +24,7 @@
     "osm2geojsonstream": "./bin/osm2geojsonstream.js"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests/"
+    "test": "./node_modules/mocha/bin/mocha tests/ -t 10000"
   },
   "license": "MIT",
   "devDependencies": {
