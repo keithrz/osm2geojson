@@ -1,4 +1,4 @@
-var expat = require('node-expat'),
+var sax = require('sax'),
     stream = require('stream'),
     geojsonStream = require('geojson-stream');
 
@@ -11,7 +11,8 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
 
   // Setup an xml stream parser and a GeoJSON stream writer
   var transformer = new stream.Transform(),
-      parser = new expat.Parser('UTF-8'),
+      strict = false,
+      parser = new sax.parser(strict), // 2nd param: options
       writer = geojsonStream.stringify()
         .on('data', function (chunk) {
           transformer.push(chunk);
@@ -36,35 +37,46 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
     };
   }
 
-  // Listen to parser events -- When a new element starts...
-  parser.on('startElement', function (name, attrs) {
+  function getAttrKey(attrs, desiredKey) {
+      for (key in attrs) {
+          if (key.toLowerCase() == desiredKey.toLowerCase()) {
+              return attrs[key];
+          }
+      }
+  }
+
+  // Listen to XML stream events -- When a new element starts...
+  parser.onopentag = function (node) {
+    var name = node.name;
+    var attrs = node.attributes;
     // ...react according to what type of element it is
-    switch (name) {
+    switch (name.toLowerCase()) {
     case 'node':
       // Cache the node for later lookup. This sucks.
-      var thisNode = nodes[attrs.id] = {uid: attrs.uid, coordinates: [Number(attrs.lon), Number(attrs.lat)]};
-      currentFeature = newFeature(attrs.id, thisNode.uid, thisNode.coordinates);
+      var thisNode = nodes[getAttrKey(attrs, 'id')] = {uid: getAttrKey(attrs, 'uid'),
+          coordinates: [Number(getAttrKey(attrs, 'lon')), Number(getAttrKey(attrs, 'lat'))]};
+      currentFeature = newFeature(getAttrKey(attrs, 'id'), getAttrKey(attrs, 'uid'), thisNode.coordinates);
       break;
     case 'way':
       // Begin assembling a new feature
-      currentFeature = newFeature(attrs.id, attrs.uid);
+      currentFeature = newFeature(getAttrKey(attrs, 'id'), getAttrKey(attrs, 'uid'));
       break;
     case 'nd':
       // Lookup the node, assign its coords to the currentFeature
-      var node = nodes[attrs.ref];
+      var node = nodes[getAttrKey(attrs, 'ref')];
       if (node) currentFeature.geometry.coordinates.push(node.coordinates);
       break;
     case 'tag':
       // Assign properties to the currentFeature, if it exists.
-      if (currentFeature) { currentFeature.properties[attrs.k] = attrs.v; }
+      if (currentFeature) { currentFeature.properties[getAttrKey(attrs, 'k')] = getAttrKey(attrs, 'v'); }
       break;
     }
-  });
+  };
   
   // When an element ends...
-  parser.on('endElement', function (name) {    
+  parser.onclosetag = function (name) {
     // ...deal with ways
-    if (name === 'way') {
+    if (name.toLowerCase() === 'way') {
       // If the last coord is identical to the first...
       var coords = currentFeature.geometry.coordinates;
       if (coords[0] === coords[coords.length - 1]) {
@@ -79,7 +91,7 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
     }
 
     // ...deal with nodes
-    if (name === 'node') {
+    if (name.toLowerCase() === 'node') {
       // If any properties have been assigned...
       //  ... this is a shitty test for whether or not its worth keeping a node around ...
       if (Object.keys(currentFeature.properties).length > 1) {
@@ -98,8 +110,8 @@ function Osm2GeoJSON(filterFunction, mappingFunction) {
     }
 
     // Finished writing when we've parsed the end of the <osm> element
-    if (name === 'osm') { writer.end(); }
-  });
+    if (name.toLowerCase() === 'osm') { writer.end(); }
+  };
 
   return transformer;
 }
